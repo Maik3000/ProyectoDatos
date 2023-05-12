@@ -8,6 +8,8 @@ import click
 import time
 import sys
 import os
+import pickle
+
 
 
 @click.group()
@@ -226,7 +228,21 @@ def log():
 
     ⬇ Your code starts here:
     '''
-    pass
+def print_confirmation_log(branch_path):
+    # Read the pickle file stored at 'branch_path'
+    with open(branch_path, 'rb') as file:
+        branch = pickle.load(file)
+    
+    # Reverse the linked list using its reverse() method
+    branch.reverse()
+    
+    # Print the confirmation log
+    for confirmation in branch:
+        print(confirmation)
+
+# Example usage
+    branch_path = 'path/to/branch.pickle'
+    print_confirmation_log(branch_path)
     branch = None # Remove. Added to avoid warning in line 211.
     '''
     ⬆ Your code ends here.
