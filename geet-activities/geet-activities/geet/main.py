@@ -229,14 +229,18 @@ def log():
     ⬇ Your code starts here:
     '''
 def print_confirmation_log(branch_path):
+    # Lea el archivo pickle almacenado en 'branch_path'
     with open(branch_path, 'rb') as file:
         branch = pickle.load(file)
     
+    # Invierte la lista enlazada usando su método reverse()
     branch.reverse()
     
+    # Imprimir el registro de confirmación
     for confirmation in branch:
         print(confirmation)
-
+       
+    # Ejemplo de uso
     branch_path = 'path/to/branch.pickle'
     print_confirmation_log(branch_path)
     branch = None # Remove. Added to avoid warning in line 211.
