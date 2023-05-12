@@ -8,6 +8,8 @@ import click
 import time
 import sys
 import os
+import pickle
+
 
 
 @click.group()
@@ -135,10 +137,10 @@ def config(u, e):
 import os
 
 def update_author_data(username, email):
-    # Insert the received parameters into a list
+    # Insertar los parámetros recibidos en una lista
     user_config = [username, email]
     
-    # Save the list to a file in the hidden folder .geet
+    # Guardar la lista en un archivo en la carpeta oculta .geet
     hidden_folder = ".geet"
     if not os.path.exists(hidden_folder):
         os.makedirs(hidden_folder)
@@ -147,12 +149,12 @@ def update_author_data(username, email):
     with open(config_file, "w") as file:
         file.write(str(user_config))
     
-    # Display the new configured username and email in the console
+    # Mostrar el nuevo nombre de usuario y correo electrónico configurados en la consola
     print("Username: ", username)
     print("Email: ", email)
 
 
-# Example usage
+# Ejemplo de uso
 username = input("Enter the username: ")
 email = input("Enter the email: ")
 
@@ -176,7 +178,7 @@ def commit(m):
         print('\n     < No changes have been done, cannot commit. >')
         sys.exit(0)
     
-    status_utils.save_hash_dict(path) # New current hash dict is saved
+    status_utils.save_hash_dict(path) 
     commit_tree = commit_utils.create_tree_object(path, m) # Creates commit tree object. NOTE: activity no. 2 call
     commit_utils.save_tree_object(path, commit_tree) # Saves commit in disk
     print('Creating commit with hash {}.'.format(commit_tree.name))
@@ -251,7 +253,21 @@ def log():
 
     ⬇ Your code starts here:
     '''
-    pass
+def print_confirmation_log(branch_path):
+    # Lea el archivo pickle almacenado en 'branch_path'
+    with open(branch_path, 'rb') as file:
+        branch = pickle.load(file)
+    
+    # Invierte la lista enlazada usando su método reverse()
+    branch.reverse()
+    
+    # Imprimir el registro de confirmación
+    for confirmation in branch:
+        print(confirmation)
+       
+    # Ejemplo de uso
+    branch_path = 'path/to/branch.pickle'
+    print_confirmation_log(branch_path)
     branch = None # Remove. Added to avoid warning in line 211.
     '''
     ⬆ Your code ends here.
