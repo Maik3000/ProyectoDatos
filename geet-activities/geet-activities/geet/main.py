@@ -134,10 +134,10 @@ def config(u, e):
 import os
 
 def update_author_data(username, email):
-    # Insert the received parameters into a list
+    # Insertar los parámetros recibidos en una lista
     user_config = [username, email]
     
-    # Save the list to a file in the hidden folder .geet
+    # Guardar la lista en un archivo en la carpeta oculta .geet
     hidden_folder = ".geet"
     if not os.path.exists(hidden_folder):
         os.makedirs(hidden_folder)
@@ -146,12 +146,12 @@ def update_author_data(username, email):
     with open(config_file, "w") as file:
         file.write(str(user_config))
     
-    # Display the new configured username and email in the console
+    # Mostrar el nuevo nombre de usuario y correo electrónico configurados en la consola
     print("Username: ", username)
     print("Email: ", email)
 
 
-# Example usage
+# Ejemplo de uso
 username = input("Enter the username: ")
 email = input("Enter the email: ")
 
