@@ -177,7 +177,7 @@ def commit(m):
         print('\n     < No changes have been done, cannot commit. >')
         sys.exit(0)
     
-    status_utils.save_hash_dict(path) # New current hash dict is saved
+    status_utils.save_hash_dict(path) 
     commit_tree = commit_utils.create_tree_object(path, m) # Creates commit tree object. NOTE: activity no. 2 call
     commit_utils.save_tree_object(path, commit_tree) # Saves commit in disk
     print('Creating commit with hash {}.'.format(commit_tree.name))
@@ -229,18 +229,14 @@ def log():
     ⬇ Your code starts here:
     '''
 def print_confirmation_log(branch_path):
-    # Read the pickle file stored at 'branch_path'
     with open(branch_path, 'rb') as file:
         branch = pickle.load(file)
     
-    # Reverse the linked list using its reverse() method
     branch.reverse()
     
-    # Print the confirmation log
     for confirmation in branch:
         print(confirmation)
 
-# Example usage
     branch_path = 'path/to/branch.pickle'
     print_confirmation_log(branch_path)
     branch = None # Remove. Added to avoid warning in line 211.
