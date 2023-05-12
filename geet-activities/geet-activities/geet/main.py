@@ -131,10 +131,35 @@ def config(u, e):
 
     ⬇ Your code starts here:
     '''
-    pass
-    '''
+import os
+
+def update_author_data(username, email):
+    # Insert the received parameters into a list
+    user_config = [username, email]
+    
+    # Save the list to a file in the hidden folder .geet
+    hidden_folder = ".geet"
+    if not os.path.exists(hidden_folder):
+        os.makedirs(hidden_folder)
+    
+    config_file = os.path.join(hidden_folder, "user_config.txt")
+    with open(config_file, "w") as file:
+        file.write(str(user_config))
+    
+    # Display the new configured username and email in the console
+    print("Username: ", username)
+    print("Email: ", email)
+
+
+# Example usage
+username = input("Enter the username: ")
+email = input("Enter the email: ")
+
+update_author_data(username, email)
+
+'''
     ⬆ Your code ends here.
-    '''
+'''
 
 
 @cli.command()
