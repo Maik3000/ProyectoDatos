@@ -167,6 +167,7 @@ update_author_data(username, email)
 @click.option('-m', help='Commit message')
 def commit(m):
 
+
     path = status_utils.get_current_path()
     previous_hash_dict = status_utils.read_current_hash_dict(path)
     current_hash_dict = status_utils.get_hash_dict(path)
@@ -202,7 +203,31 @@ def commit(m):
 
     ⬇ Your code starts here:
     '''
-    pass
+    file_name = path + '.geet/branch'  
+
+
+    # Lee la master branch del archivo pickle 
+    with open(file_name, 'rb') as file:
+        branch = pickle.load(file)
+
+    # Crea un nodo de confirmacion usando el nombre y mensaje
+    commit_node = Node(commit_tree.name, commit_tree.message, username, email)  
+
+    # lee la persisted list para obtener el nombre y email 
+    with open('persisted_list.pickle', 'rb') as file:
+        persisted_list = pickle.load(file)
+        username = persisted_list['username']
+        email = persisted_list['email']
+
+    # Acrualiza los valores anteriores y lo comitea
+    commit_node.author = username
+    commit_node.email = email
+    branch.insert_last(commit_node)
+
+    # reescribe
+    with open(file_name, 'wb') as file:
+        pickle.dump(branch, file)
+
     '''
     ⬆ Your code ends here.
     '''
