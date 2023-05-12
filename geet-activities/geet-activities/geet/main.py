@@ -101,7 +101,8 @@ def init():
 
     ⬇ Your code starts here:
     '''
-    pass
+    with open(file_name, 'wb') as file:
+        pickle.dump(branch_master, file) #sirve para guardar y serializar el objeto dentro del archivo
     '''
     ⬆ Your code ends here.
     '''
