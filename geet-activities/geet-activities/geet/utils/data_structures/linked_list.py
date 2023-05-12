@@ -62,3 +62,6 @@ class LinkedList:
             previous = current
             current = next_node
         self.start = previous
+
+    
+    
