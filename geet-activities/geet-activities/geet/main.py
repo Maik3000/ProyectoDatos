@@ -131,32 +131,24 @@ def config(u, e):
         - Display in console the new user and email set.
 
     ⬇ Your code starts here:
-    '''
-import os
-
+    ''' 
 def update_author_data(username, email):
-    # Insertar los parámetros recibidos en una lista
-    user_config = [username, email]
-    
-    # Guardar la lista en un archivo en la carpeta oculta .geet
-    hidden_folder = ".geet"
-    if not os.path.exists(hidden_folder):
-        os.makedirs(hidden_folder)
-    
-    config_file = os.path.join(hidden_folder, "user_config.txt")
-    with open(config_file, "w") as file:
-        file.write(str(user_config))
-    
-    # Mostrar el nuevo nombre de usuario y correo electrónico configurados en la consola
-    print("Username: ", username)
-    print("Email: ", email)
-
-
+        # Insertar los parámetros recibidos en una lista
+        user_config = [username, email]
+        
+        # Guardar la lista en un archivo en la carpeta oculta .geet
+        hidden_folder = ".geet"
+        if not os.path.exists(hidden_folder):
+            os.makedirs(hidden_folder)
+        
+        config_file = os.path.join(hidden_folder, "user_config.txt")
+        with open(config_file, "w") as file:
+            file.write(str(user_config))
+        
+        # Mostrar el nuevo nombre de usuario y correo electrónico configurados en la consola
+        print("Username: ", username)
+        print("Email: ", email)
 # Ejemplo de uso
-username = input("Enter the username: ")
-email = input("Enter the email: ")
-
-update_author_data(username, email)
 
 '''
     ⬆ Your code ends here.
