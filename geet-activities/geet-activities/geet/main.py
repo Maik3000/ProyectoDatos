@@ -8,8 +8,6 @@ import click
 import time
 import sys
 import os
-import pickle
-
 
 
 @click.group()
