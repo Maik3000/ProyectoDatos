@@ -102,7 +102,7 @@ def init():
     ⬇ Your code starts here:
     '''
     with open(file_name, 'wb') as file:
-        pickle.dump(branch_master, file) #sirve para guardar y serializar el objeto dentro del archivo
+        pickle.dump(branch_master, file, pickle.HIGHEST_PROTOCOL) #sirve para guardar y serializar el objeto dentro del archivo
     '''
     ⬆ Your code ends here.
     '''
@@ -113,7 +113,7 @@ def init():
 @cli.command()
 @click.option('-u', help='Author\'s name')
 @click.option('-e', help='Author\'s email address')
-def config(u, e):
+def config(user, email):
 
     '''
     TODO no. 4: User config command
@@ -132,23 +132,26 @@ def config(u, e):
 
     ⬇ Your code starts here:
     ''' 
-def update_author_data(username, email):
-        # Insertar los parámetros recibidos en una lista
-        user_config = [username, email]
+
+    user_config = [user, email]
+    print("Username: ", user)
+    print("Email: ", email)
+
+    # Guardar la lista en un archivo en .geet
+    hidden_folder = ".geet"
+    if not os.path.exists(hidden_folder):
+        os.makedirs(hidden_folder)
+
+    init_path = os.getcwd()
+
+    config_file = os.path.join(init_path + hidden_folder, "user_config.txt")
+    with open(config_file, "w") as file:
+        file.write("\n".join(user_config, file))    
         
-        # Guardar la lista en un archivo en la carpeta oculta .geet
-        hidden_folder = ".geet"
-        if not os.path.exists(hidden_folder):
-            os.makedirs(hidden_folder)
-        
-        config_file = os.path.join(hidden_folder, "user_config.txt")
-        with open(config_file, "w") as file:
-            file.write(str(user_config))
-        
-        # Mostrar el nuevo nombre de usuario y correo electrónico configurados en la consola
-        print("Username: ", username)
-        print("Email: ", email)
-# Ejemplo de uso
+    # Muestra el nuevo nombre de usuario y correo
+    print("Username: ", user)
+    print("Email: ", email)
+
 
 '''
     ⬆ Your code ends here.
@@ -198,23 +201,18 @@ def commit(m):
     file_name = path + '.geet/branch'  
 
 
-    # Lee la master branch del archivo pickle 
+    # Lee la master branch del archivo 
     with open(file_name, 'rb') as file:
-        branch = pickle.load(file)
+        user_config = file.read().splitlines()
+
 
     # Crea un nodo de confirmacion usando el nombre y mensaje
-    commit_node = Node(commit_tree.name, commit_tree.message, username, email)  
+    commit_node = Node(commit_tree.name, commit_tree.message, user_config[0], user_config[1])  
 
     # lee la persisted list para obtener el nombre y email 
-    with open('persisted_list.pickle', 'rb') as file:
-        persisted_list = pickle.load(file)
-        username = persisted_list['username']
-        email = persisted_list['email']
-
-    # Acrualiza los valores anteriores y lo comitea
-    commit_node.author = username
-    commit_node.email = email
-    branch.insert_last(commit_node)
+    with open(branch_path, 'rb') as file:
+        branch = pickle.load(file)
+    branch.insert_last(commit_node) #agrega el nodo
 
     # reescribe
     with open(file_name, 'wb') as file:
@@ -243,7 +241,6 @@ def log():
 
     ⬇ Your code starts here:
     '''
-def print_confirmation_log(branch_path):
     # Lea el archivo pickle almacenado en 'branch_path'
     with open(branch_path, 'rb') as file:
         branch = pickle.load(file)
@@ -254,11 +251,7 @@ def print_confirmation_log(branch_path):
     # Imprimir el registro de confirmación
     for confirmation in branch:
         print(confirmation)
-       
-    # Ejemplo de uso
-    branch_path = 'path/to/branch.pickle'
-    print_confirmation_log(branch_path)
-    branch = None # Remove. Added to avoid warning in line 211.
+    
     '''
     ⬆ Your code ends here.
     '''

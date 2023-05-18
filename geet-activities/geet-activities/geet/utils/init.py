@@ -2,7 +2,7 @@
 [Module] Init command utils.
 '''
 import os
-import utils.data_structures.linked_list as linked_list
+import utils.data_structures.linked_list as Linked_list
 
 
 def write_file(name: str, lines: list) -> None:
@@ -42,44 +42,8 @@ def create_branch(path: str) -> object:
     '''
 # geet/utils/data_structures/linked_list.py
 
-class Node:
-    def __init__(self, data):
-        self.data = data
-        self.next = None
-
-class LinkedList:
-    def __init__(self):
-        self.head = None
-
-    def is_empty(self):
-        return self.head is None
-
-    def add(self, data):
-        new_node = Node(data)
-        if self.is_empty():
-            self.head = new_node
-        else:
-            current = self.head
-            while current.next is not None:
-                current = current.next
-            current.next = new_node
-
-    def __str__(self):
-        if self.is_empty():
-            return "Empty list"
-
-        current = self.head
-        nodes = []
-        while current is not None:
-            nodes.append(str(current.data))
-            current = current.next
-        return " -> ".join(nodes)
-
-def create_empty_linked_list():
-    return LinkedList()
-
-    my_linked_list = create_empty_linked_list()
-    return my_linked_list
+    linkedList = Linked_list.LinkedList()
+    return linkedList
 
     '''
     ⬆ Your code ends here.
