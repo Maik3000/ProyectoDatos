@@ -113,7 +113,7 @@ def init():
 @cli.command()
 @click.option('-u', help='Author\'s name')
 @click.option('-e', help='Author\'s email address')
-def config(user, email):
+def config(u, e):
 
     '''
     TODO no. 4: User config command
@@ -133,25 +133,21 @@ def config(user, email):
     ⬇ Your code starts here:
     ''' 
 
-    user_config = [user, email]
-    print("Username: ", user)
-    print("Email: ", email)
+    user_config = [u, e]
+    
 
     # Guardar la lista en un archivo en .geet
     hidden_folder = ".geet"
     if not os.path.exists(hidden_folder):
         os.makedirs(hidden_folder)
 
-    init_path = os.getcwd()
-
-    config_file = os.path.join(init_path + hidden_folder, "user_config.txt")
+    config_file = os.path.join(hidden_folder, "user_config.txt")
     with open(config_file, "w") as file:
-        file.write("\n".join(user_config, file))    
+        file.write("\n".join(user_config))
         
     # Muestra el nuevo nombre de usuario y correo
-    print("Username: ", user)
-    print("Email: ", email)
-
+    print("Username: ", u)
+    print("Email: ", e)
 
 '''
     ⬆ Your code ends here.
