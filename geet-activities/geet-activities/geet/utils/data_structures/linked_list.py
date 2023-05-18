@@ -63,14 +63,14 @@ class LinkedList:
             current = next_node
         self.start = previous
         
-    def delete_commit(self, commit_hash):
+    def delete(self, commit_hash):
         if self.head is None:
             return
-        
+
         if self.head.hash == commit_hash:
-            self.head = self.head.next
+            self.head = self.head.next if self.head.next else None
             return
-        
+
         current = self.head
         prev = None
 

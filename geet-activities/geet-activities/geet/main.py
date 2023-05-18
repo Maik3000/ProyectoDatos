@@ -132,23 +132,21 @@ def config(u, e):
 
     ⬇ Your code starts here:
     ''' 
-def update_author_data(username, email):
-        # Insertar los parámetros recibidos en una lista
-        user_config = [username, email]
+    user_config = [u, e]
+    
+
+    # Guardar la lista en un archivo en .geet
+    hidden_folder = ".geet"
+    if not os.path.exists(hidden_folder):
+        os.makedirs(hidden_folder)
+
+    config_file = os.path.join(hidden_folder, "user_config.txt")
+    with open(config_file, "w") as file:
+        file.write("\n".join(user_config))
         
-        # Guardar la lista en un archivo en la carpeta oculta .geet
-        hidden_folder = ".geet"
-        if not os.path.exists(hidden_folder):
-            os.makedirs(hidden_folder)
-        
-        config_file = os.path.join(hidden_folder, "user_config.txt")
-        with open(config_file, "w") as file:
-            file.write(str(user_config))
-        
-        # Mostrar el nuevo nombre de usuario y correo electrónico configurados en la consola
-        print("Username: ", username)
-        print("Email: ", email)
-# Ejemplo de uso
+    # Muestra el nuevo nombre de usuario y correo
+    print("Username: ", u)
+    print("Email: ", e)
 
 '''
     ⬆ Your code ends here.
@@ -198,23 +196,17 @@ def commit(m):
     file_name = path + '.geet/branch'  
 
 
-    # Lee la master branch del archivo pickle 
+    # Lee la master branch del archivo  
     with open(file_name, 'rb') as file:
-        branch = pickle.load(file)
+        user_config = file.read().splitlines()
 
     # Crea un nodo de confirmacion usando el nombre y mensaje
-    commit_node = Node(commit_tree.name, commit_tree.message, username, email)  
+    commit_node = Node(commit_tree.name, commit_tree.message, user_config[0], user_config[1])  
 
     # lee la persisted list para obtener el nombre y email 
-    with open('persisted_list.pickle', 'rb') as file:
-        persisted_list = pickle.load(file)
-        username = persisted_list['username']
-        email = persisted_list['email']
-
-    # Acrualiza los valores anteriores y lo comitea
-    commit_node.author = username
-    commit_node.email = email
-    branch.insert_last(commit_node)
+    with open(branch_path, 'rb') as file:
+        branch = pickle.load(file)
+    branch.insert_last(commit_node) #agrega el nodo
 
     # reescribe
     with open(file_name, 'wb') as file:
@@ -243,22 +235,14 @@ def log():
 
     ⬇ Your code starts here:
     '''
-def print_confirmation_log(branch_path):
-    # Lea el archivo pickle almacenado en 'branch_path'
     with open(branch_path, 'rb') as file:
         branch = pickle.load(file)
     
-    # Invierte la lista enlazada usando su método reverse()
     branch.reverse()
-    
+
     # Imprimir el registro de confirmación
     for confirmation in branch:
         print(confirmation)
-       
-    # Ejemplo de uso
-    branch_path = 'path/to/branch.pickle'
-    print_confirmation_log(branch_path)
-    branch = None # Remove. Added to avoid warning in line 211.
     '''
     ⬆ Your code ends here.
     '''
@@ -273,20 +257,21 @@ def print_confirmation_log(branch_path):
 
     print('[Beginning of time]')
 
-
-if __name__ == '__main__':
-    cli()
-
 @cli.command()
-@click.option('-h', '--hash', help='Commit hash')
-def delete_commit(hash):
+@click.option('-h', '--commit-hash', help='Commit hash')
+def delete(commit_hash):
     path = status_utils.get_current_path()
-    branch_path = os.path.join(path, '.geet/branch.pickle')
+    branch_path = os.path.join(path, '.geet/branch')
 
     with open(branch_path, 'rb') as file:
         branch = pickle.load(file)
 
-    branch.delete_commit(hash)
+    branch.delete(commit_hash)
 
     with open(branch_path, 'wb') as file:
         pickle.dump(branch, file)
+
+
+if __name__ == '__main__':
+    cli()
+
